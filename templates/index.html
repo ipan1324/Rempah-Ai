@@ -1,0 +1,573 @@
+{% extends "base.html" %}
+
+{% block title %}RempahAI – Klasifikasi Bumbu Dapur Indonesia dengan AI{% endblock %}
+
+{% block content %}
+
+  <!-- ══════════════════════════════════════════════════════════
+       HERO SECTION
+  ══════════════════════════════════════════════════════════ -->
+  <section class="hero-section" aria-label="Hero">
+    <div class="hero-bg-overlay"></div>
+    <div class="hero-particles" aria-hidden="true">
+      <!-- Partikel dekoratif (CSS animated) -->
+      <span class="particle p1"></span>
+      <span class="particle p2"></span>
+      <span class="particle p3"></span>
+      <span class="particle p4"></span>
+      <span class="particle p5"></span>
+    </div>
+
+    <div class="container position-relative">
+      <div class="row align-items-center min-vh-90">
+
+        <!-- Teks Utama -->
+        <div class="col-lg-6 text-center text-lg-start mb-5 mb-lg-0">
+          <div class="hero-badge mb-3 animate-fade-in">
+            <i class="bi bi-stars me-2"></i>AI Transfer Learning
+          </div>
+          <h1 class="hero-title animate-slide-up">
+            Klasifikasi<br />
+            <span class="gradient-text">Bumbu Dapur</span><br />
+            Indonesia
+          </h1>
+          <p class="hero-subtitle animate-slide-up delay-1">
+            Identifikasi <strong>Kencur</strong>, <strong>Kunyit</strong>, dan
+            <strong>Lengkuas</strong> secara otomatis menggunakan kecerdasan buatan
+            berbasis <em>Transfer Learning MobileNetV2</em>.
+          </p>
+          <div class="d-flex gap-3 justify-content-center justify-content-lg-start animate-slide-up delay-2">
+            <a href="#upload-section" class="btn btn-hero-primary">
+              <i class="bi bi-cloud-upload me-2"></i>Coba Sekarang
+            </a>
+            <a href="#tentang" class="btn btn-hero-outline">
+              <i class="bi bi-play-circle me-2"></i>Pelajari Lebih
+            </a>
+          </div>
+
+          <!-- Stats -->
+          <div class="hero-stats animate-slide-up delay-3">
+            <div class="stat-item">
+              <span class="stat-number">3</span>
+              <span class="stat-label">Kelas Bumbu</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-number">224px</span>
+              <span class="stat-label">Input Size</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-number">MobileNetV2</span>
+              <span class="stat-label">Architecture</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Visual -->
+        <div class="col-lg-6 text-center animate-fade-in delay-2">
+          <div class="hero-visual">
+            <div class="hero-card-float">
+              <div class="spice-orbit">
+                <div class="orbit-item orbit-1">
+                  <i class="bi bi-flower1"></i>
+                  <span>Kencur</span>
+                </div>
+                <div class="orbit-item orbit-2">
+                  <i class="bi bi-brightness-high"></i>
+                  <span>Kunyit</span>
+                </div>
+                <div class="orbit-item orbit-3">
+                  <i class="bi bi-tree"></i>
+                  <span>Lengkuas</span>
+                </div>
+                <div class="orbit-center">
+                  <i class="bi bi-cpu-fill"></i>
+                  <span class="orbit-center-label">AI</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       TENTANG PROYEK
+  ══════════════════════════════════════════════════════════ -->
+  <section class="section-about py-5" id="tentang" aria-label="Tentang Proyek">
+    <div class="container">
+
+      <div class="section-header text-center mb-5">
+        <span class="section-tag">Transfer Learning</span>
+        <h2 class="section-title">Tentang Proyek</h2>
+        <p class="section-desc">
+          Penerapan <strong>Deep Learning</strong> untuk mengenali bumbu dapur tradisional Indonesia
+          secara otomatis melalui analisis citra digital.
+        </p>
+      </div>
+
+      <div class="row g-4">
+
+        <!-- Card 1: MobileNetV2 -->
+        <div class="col-md-4">
+          <div class="info-card h-100">
+            <div class="info-card-icon" style="--icon-color: #6C63FF;">
+              <i class="bi bi-diagram-3-fill"></i>
+            </div>
+            <h3 class="info-card-title">MobileNetV2</h3>
+            <p class="info-card-text">
+              Arsitektur Convolutional Neural Network yang ringan dan efisien,
+              dilatih pada <strong>ImageNet</strong> (1.4 juta gambar, 1000 kelas).
+              Pretrained weights-nya digunakan sebagai <em>feature extractor</em>
+              melalui teknik Transfer Learning.
+            </p>
+            <div class="info-card-tag">ImageNet Weights</div>
+          </div>
+        </div>
+
+        <!-- Card 2: Transfer Learning -->
+        <div class="col-md-4">
+          <div class="info-card h-100">
+            <div class="info-card-icon" style="--icon-color: #FF6B6B;">
+              <i class="bi bi-arrow-repeat"></i>
+            </div>
+            <h3 class="info-card-title">Transfer Learning</h3>
+            <p class="info-card-text">
+              Seluruh layer base model di-<em>freeze</em> agar fitur generik tetap
+              terjaga. Ditambahkan <strong>custom classification head</strong>:
+              GlobalAveragePooling → Dropout → Dense(128) → Dropout → Dense(3).
+              Hanya head ini yang dilatih ulang.
+            </p>
+            <div class="info-card-tag">Frozen Base Model</div>
+          </div>
+        </div>
+
+        <!-- Card 3: Dataset -->
+        <div class="col-md-4">
+          <div class="info-card h-100">
+            <div class="info-card-icon" style="--icon-color: #4CAF50;">
+              <i class="bi bi-database-fill"></i>
+            </div>
+            <h3 class="info-card-title">Dataset Bumbu</h3>
+            <p class="info-card-text">
+              Dataset berisi citra bumbu dapur Indonesia dari
+              <strong>Kaggle</strong> (Spices Classification) yang terdiri
+              dari 3 kelas: <em>Kencur</em>, <em>Kunyit</em>, dan
+              <em>Lengkuas</em>. Gambar diproses menjadi ukuran 224×224 piksel.
+            </p>
+            <div class="info-card-tag">3 Kelas Bumbu</div>
+          </div>
+        </div>
+
+      </div><!-- /row -->
+
+      <!-- Arsitektur Pipeline -->
+      <div class="pipeline-section mt-5">
+        <h3 class="text-center mb-4 pipeline-title">Alur Kerja Sistem</h3>
+        <div class="pipeline-flow">
+          <div class="pipeline-step">
+            <div class="pipeline-icon"><i class="bi bi-image"></i></div>
+            <div class="pipeline-label">Input Gambar</div>
+            <div class="pipeline-sub">JPG / PNG</div>
+          </div>
+          <div class="pipeline-arrow"><i class="bi bi-chevron-right"></i></div>
+          <div class="pipeline-step">
+            <div class="pipeline-icon"><i class="bi bi-sliders"></i></div>
+            <div class="pipeline-label">Preprocessing</div>
+            <div class="pipeline-sub">224×224 | Normalisasi</div>
+          </div>
+          <div class="pipeline-arrow"><i class="bi bi-chevron-right"></i></div>
+          <div class="pipeline-step">
+            <div class="pipeline-icon"><i class="bi bi-layers"></i></div>
+            <div class="pipeline-label">MobileNetV2</div>
+            <div class="pipeline-sub">Feature Extraction</div>
+          </div>
+          <div class="pipeline-arrow"><i class="bi bi-chevron-right"></i></div>
+          <div class="pipeline-step">
+            <div class="pipeline-icon"><i class="bi bi-cpu"></i></div>
+            <div class="pipeline-label">Custom Head</div>
+            <div class="pipeline-sub">Dense + Softmax</div>
+          </div>
+          <div class="pipeline-arrow"><i class="bi bi-chevron-right"></i></div>
+          <div class="pipeline-step active">
+            <div class="pipeline-icon"><i class="bi bi-check-circle-fill"></i></div>
+            <div class="pipeline-label">Prediksi</div>
+            <div class="pipeline-sub">Kelas + Confidence</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       KELAS BUMBU
+  ══════════════════════════════════════════════════════════ -->
+  <section class="section-spices py-5" id="kelas-bumbu" aria-label="Kelas Bumbu">
+    <div class="container">
+
+      <div class="section-header text-center mb-5">
+        <span class="section-tag">Dataset</span>
+        <h2 class="section-title">Kelas Bumbu yang Dikenali</h2>
+        <p class="section-desc">
+          Sistem dapat mengidentifikasi tiga jenis bumbu dapur Indonesia berikut.
+        </p>
+      </div>
+
+      <div class="row g-4 justify-content-center">
+
+        <!-- KENCUR -->
+        <div class="col-md-4">
+          <div class="spice-card kencur-card">
+            <div class="spice-card-header">
+              <div class="spice-emoji">🌿</div>
+              <div class="spice-badge kencur-badge">Kencur</div>
+            </div>
+            <div class="spice-card-body">
+              <h3 class="spice-name">Kencur</h3>
+              <p class="spice-latin"><em>Kaempferia galanga</em></p>
+              <p class="spice-desc">
+                Rimpang dengan aroma kuat dan khas. Sering digunakan dalam
+                masakan Sunda seperti nasi liwet dan pecel. Memiliki
+                permukaan yang lebih halus dibanding rempah lainnya.
+              </p>
+              <div class="spice-tags">
+                <span class="spice-tag">Rimpang</span>
+                <span class="spice-tag">Masakan Sunda</span>
+                <span class="spice-tag">Aromatik</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KUNYIT -->
+        <div class="col-md-4">
+          <div class="spice-card kunyit-card">
+            <div class="spice-card-header">
+              <div class="spice-emoji">🟡</div>
+              <div class="spice-badge kunyit-badge">Kunyit</div>
+            </div>
+            <div class="spice-card-body">
+              <h3 class="spice-name">Kunyit</h3>
+              <p class="spice-latin"><em>Curcuma longa</em></p>
+              <p class="spice-desc">
+                Dikenal dengan warna kuning cerah khas dari senyawa
+                kurkumin. Digunakan dalam kari, rendang, dan gulai.
+                Memiliki manfaat antiinflamasi dan antioksidan.
+              </p>
+              <div class="spice-tags">
+                <span class="spice-tag">Pewarna Alami</span>
+                <span class="spice-tag">Antiinflamasi</span>
+                <span class="spice-tag">Kari</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LENGKUAS -->
+        <div class="col-md-4">
+          <div class="spice-card lengkuas-card">
+            <div class="spice-card-header">
+              <div class="spice-emoji">🌱</div>
+              <div class="spice-badge lengkuas-badge">Lengkuas</div>
+            </div>
+            <div class="spice-card-body">
+              <h3 class="spice-name">Lengkuas</h3>
+              <p class="spice-latin"><em>Alpinia galanga</em></p>
+              <p class="spice-desc">
+                Memiliki kulit lebih tebal dan tekstur berserat. Bumbu
+                wajib dalam rendang, soto, dan opor. Memberikan aroma
+                segar dan harum yang kuat pada masakan.
+              </p>
+              <div class="spice-tags">
+                <span class="spice-tag">Rendang</span>
+                <span class="spice-tag">Soto</span>
+                <span class="spice-tag">Harum</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /row -->
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       UPLOAD SECTION
+  ══════════════════════════════════════════════════════════ -->
+  <section class="section-upload py-5" id="upload-section" aria-label="Upload Gambar">
+    <div class="container">
+
+      <div class="section-header text-center mb-5">
+        <span class="section-tag">Klasifikasi</span>
+        <h2 class="section-title">Unggah Gambar Bumbu</h2>
+        <p class="section-desc">
+          Unggah foto bumbu dapur Anda dan biarkan AI mengidentifikasikan jenisnya.
+          Format yang didukung: <strong>JPG, JPEG, PNG</strong>.
+        </p>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+
+          <!-- Upload Card -->
+          <div class="upload-card">
+            <form
+              id="uploadForm"
+              action="{{ url_for('predict') }}"
+              method="POST"
+              enctype="multipart/form-data"
+              novalidate
+            >
+
+              <!-- Drop Zone -->
+              <div
+                class="drop-zone"
+                id="dropZone"
+                role="button"
+                tabindex="0"
+                aria-label="Area drag and drop gambar"
+              >
+                <!-- Tampilan default (sebelum ada gambar) -->
+                <div id="dropDefault">
+                  <div class="drop-icon">
+                    <i class="bi bi-cloud-arrow-up"></i>
+                  </div>
+                  <p class="drop-title">Drag &amp; Drop gambar di sini</p>
+                  <p class="drop-subtitle">atau klik untuk memilih file</p>
+                  <div class="drop-formats">
+                    <span class="format-badge">JPG</span>
+                    <span class="format-badge">JPEG</span>
+                    <span class="format-badge">PNG</span>
+                  </div>
+                  <p class="drop-limit">Ukuran maksimal: 16 MB</p>
+                </div>
+
+                <!-- Preview gambar (tersembunyi sebelum ada file) -->
+                <div id="previewContainer" class="d-none">
+                  <img id="previewImage" src="#" alt="Preview gambar" class="preview-img" />
+                  <div class="preview-overlay">
+                    <i class="bi bi-pencil-square"></i>
+                    <span>Ganti Gambar</span>
+                  </div>
+                </div>
+
+                <!-- Input file (tersembunyi) -->
+                <input
+                  type="file"
+                  id="fileInput"
+                  name="file"
+                  accept=".jpg,.jpeg,.png"
+                  class="file-input-hidden"
+                  aria-describedby="fileHelp"
+                />
+              </div>
+
+              <!-- Info file yang dipilih -->
+              <div id="fileInfo" class="file-info d-none">
+                <i class="bi bi-file-earmark-image me-2"></i>
+                <span id="fileName">—</span>
+                <span id="fileSize" class="file-size-badge ms-2">—</span>
+                <button
+                  type="button"
+                  id="removeFile"
+                  class="btn-remove-file"
+                  aria-label="Hapus file"
+                  title="Hapus file"
+                >
+                  <i class="bi bi-x-circle-fill"></i>
+                </button>
+              </div>
+
+              <!-- Error validasi client-side -->
+              <div id="validationError" class="validation-msg d-none">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <span id="errorText"></span>
+              </div>
+
+              <!-- Tombol Prediksi -->
+              <button
+                type="submit"
+                id="predictBtn"
+                class="btn btn-predict w-100"
+                disabled
+              >
+                <span id="btnText">
+                  <i class="bi bi-magic me-2"></i>Prediksi Sekarang
+                </span>
+                <span id="btnLoading" class="d-none">
+                  <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                  Menganalisis gambar…
+                </span>
+              </button>
+
+            </form><!-- /form -->
+          </div><!-- /upload-card -->
+
+          <!-- Petunjuk penggunaan -->
+          <div class="tips-section mt-4">
+            <h4 class="tips-title"><i class="bi bi-lightbulb me-2"></i>Tips Foto yang Baik</h4>
+            <ul class="tips-list">
+              <li><i class="bi bi-check-circle me-2"></i>Pastikan bumbu terlihat jelas dan fokus</li>
+              <li><i class="bi bi-check-circle me-2"></i>Gunakan pencahayaan yang cukup</li>
+              <li><i class="bi bi-check-circle me-2"></i>Hindari latar belakang yang ramai</li>
+              <li><i class="bi bi-check-circle me-2"></i>Foto dari dekat untuk hasil terbaik</li>
+            </ul>
+          </div>
+
+        </div>
+      </div><!-- /row -->
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// ─── Upload & Preview Logic ───────────────────────────────────
+const dropZone      = document.getElementById('dropZone');
+const fileInput     = document.getElementById('fileInput');
+const previewCont   = document.getElementById('previewContainer');
+const dropDefault   = document.getElementById('dropDefault');
+const previewImg    = document.getElementById('previewImage');
+const fileInfo      = document.getElementById('fileInfo');
+const fileName      = document.getElementById('fileName');
+const fileSize      = document.getElementById('fileSize');
+const removeBtn     = document.getElementById('removeFile');
+const predictBtn    = document.getElementById('predictBtn');
+const validErr      = document.getElementById('validationError');
+const errText       = document.getElementById('errorText');
+const uploadForm    = document.getElementById('uploadForm');
+const btnText       = document.getElementById('btnText');
+const btnLoading    = document.getElementById('btnLoading');
+
+const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
+const MAX_SIZE_MB   = 16;
+
+// Format ukuran file ke string human-readable
+function formatSize(bytes) {
+  if (bytes < 1024)       return bytes + ' B';
+  if (bytes < 1048576)    return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / 1048576).toFixed(2) + ' MB';
+}
+
+// Validasi file (tipe + ukuran)
+function validateFile(file) {
+  if (!ALLOWED_TYPES.includes(file.type)) {
+    return 'Format tidak didukung! Hanya JPG, JPEG, dan PNG yang diterima.';
+  }
+  if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+    return `Ukuran file terlalu besar! Maksimal ${MAX_SIZE_MB} MB.`;
+  }
+  return null;
+}
+
+// Tampilkan preview gambar
+function showPreview(file) {
+  const errMsg = validateFile(file);
+
+  if (errMsg) {
+    validErr.classList.remove('d-none');
+    errText.textContent = errMsg;
+    resetPreview();
+    return;
+  }
+
+  validErr.classList.add('d-none');
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    previewImg.src = e.target.result;
+    previewCont.classList.remove('d-none');
+    dropDefault.classList.add('d-none');
+  };
+  reader.readAsDataURL(file);
+
+  // Tampilkan info file
+  fileName.textContent = file.name;
+  fileSize.textContent = formatSize(file.size);
+  fileInfo.classList.remove('d-none');
+
+  // Aktifkan tombol prediksi
+  predictBtn.disabled = false;
+  predictBtn.classList.add('active');
+}
+
+// Reset ke keadaan awal
+function resetPreview() {
+  fileInput.value   = '';
+  previewImg.src    = '#';
+  previewCont.classList.add('d-none');
+  dropDefault.classList.remove('d-none');
+  fileInfo.classList.add('d-none');
+  predictBtn.disabled = true;
+  predictBtn.classList.remove('active');
+}
+
+// Klik pada drop zone → buka file dialog
+dropZone.addEventListener('click', (e) => {
+  if (e.target !== removeBtn && !removeBtn.contains(e.target)) {
+    fileInput.click();
+  }
+});
+
+// Keyboard accessibility
+dropZone.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    fileInput.click();
+  }
+});
+
+// File dipilih lewat input
+fileInput.addEventListener('change', () => {
+  if (fileInput.files.length > 0) showPreview(fileInput.files[0]);
+});
+
+// Drag & Drop
+dropZone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropZone.classList.add('drag-over');
+});
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('drag-over');
+});
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  const dt = e.dataTransfer;
+  if (dt.files.length > 0) {
+    const file = dt.files[0];
+    // Masukkan file ke input
+    const dT = new DataTransfer();
+    dT.items.add(file);
+    fileInput.files = dT.files;
+    showPreview(file);
+  }
+});
+
+// Hapus file
+removeBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  resetPreview();
+  validErr.classList.add('d-none');
+});
+
+// Loading state saat form submit
+uploadForm.addEventListener('submit', (e) => {
+  if (fileInput.files.length === 0) {
+    e.preventDefault();
+    validErr.classList.remove('d-none');
+    errText.textContent = 'Pilih gambar terlebih dahulu!';
+    return;
+  }
+  // Tampilkan loading indicator
+  btnText.classList.add('d-none');
+  btnLoading.classList.remove('d-none');
+  predictBtn.disabled = true;
+});
+</script>
+{% endblock %}

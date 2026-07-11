@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+
+{% block title %}Hasil Prediksi – {{ result.predicted_class }} | RempahAI{% endblock %}
+
+{% block content %}
+
+  <!-- ══════════════════════════════════════════════════════════
+       RESULT HERO BANNER
+  ══════════════════════════════════════════════════════════ -->
+  <section class="result-hero py-4">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb result-breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{{ url_for('index') }}"><i class="bi bi-house me-1"></i>Beranda</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">Hasil Prediksi</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       HASIL PREDIKSI UTAMA
+  ══════════════════════════════════════════════════════════ -->
+  <section class="result-section py-4 pb-5" aria-label="Hasil Prediksi">
+    <div class="container">
+      <div class="row g-4 justify-content-center">
+
+        <!-- ── Kolom Kiri: Gambar & Info ── -->
+        <div class="col-lg-5">
+
+          <!-- Card Gambar -->
+          <div class="result-image-card">
+            <div class="result-image-header">
+              <i class="bi bi-image me-2"></i>Gambar yang Diunggah
+            </div>
+            <div class="result-image-body">
+              <img
+                src="{{ result.image_url }}"
+                alt="Gambar bumbu: {{ result.predicted_class }}"
+                class="result-img"
+                id="resultImage"
+              />
+              <div class="result-img-overlay">
+                <div class="result-class-badge">
+                  {{ result.predicted_class }}
+                </div>
+              </div>
+            </div>
+            <div class="result-image-footer">
+              <div class="img-meta-item">
+                <i class="bi bi-file-earmark-image"></i>
+                <span>{{ result.original_name }}</span>
+              </div>
+              <div class="img-meta-item">
+                <i class="bi bi-clock"></i>
+                <span>{{ result.upload_time }}</span>
+              </div>
+            </div>
+          </div><!-- /result-image-card -->
+
+        </div><!-- /col -->
+
+        <!-- ── Kolom Kanan: Hasil & Detail ── -->
+        <div class="col-lg-7">
+
+          <!-- Card Hasil Utama -->
+          <div class="result-main-card mb-4">
+
+            <div class="result-main-header">
+              <div class="result-status-icon
+                {% if result.confidence >= 0.85 %}status-high
+                {% elif result.confidence >= 0.60 %}status-medium
+                {% else %}status-low{% endif %}
+              ">
+                <i class="bi bi-
+                  {% if result.confidence >= 0.85 %}shield-fill-check
+                  {% elif result.confidence >= 0.60 %}shield-fill-exclamation
+                  {% else %}shield-fill-minus{% endif %}
+                "></i>
+              </div>
+              <div>
+                <div class="result-label">Hasil Identifikasi</div>
+                <h1 class="result-class-name">{{ result.predicted_class }}</h1>
+              </div>
+            </div>
+
+            <!-- Nama Latin -->
+            {% if result.class_info.nama_latin %}
+            <div class="result-latin-name">
+              <i class="bi bi-book me-2"></i>
+              <em>{{ result.class_info.nama_latin }}</em>
+            </div>
+            {% endif %}
+
+            <!-- Confidence Score -->
+            <div class="confidence-section">
+              <div class="confidence-header">
+                <span class="confidence-label">Tingkat Keyakinan</span>
+                <span class="confidence-value">{{ result.confidence_pct }}</span>
+              </div>
+              <div class="confidence-bar-track">
+                <div
+                  class="confidence-bar-fill
+                    {% if result.confidence >= 0.85 %}bar-high
+                    {% elif result.confidence >= 0.60 %}bar-medium
+                    {% else %}bar-low{% endif %}"
+                  style="--target-width: {{ (result.confidence * 100) | round(1) }}%;"
+                ></div>
+              </div>
+              <div class="confidence-legend">
+                <span class="legend-low">Rendah</span>
+                <span class="legend-medium">Cukup</span>
+                <span class="legend-high">Tinggi</span>
+              </div>
+            </div>
+
+            <!-- Metadata Prediksi -->
+            <div class="meta-row">
+              <div class="meta-item">
+                <i class="bi bi-stopwatch me-1"></i>
+                <span class="meta-key">Waktu Prediksi</span>
+                <span class="meta-val">{{ result.prediction_time }}</span>
+              </div>
+              <div class="meta-item">
+                <i class="bi bi-cpu me-1"></i>
+                <span class="meta-key">Model</span>
+                <span class="meta-val">MobileNetV2</span>
+              </div>
+            </div>
+
+          </div><!-- /result-main-card -->
+
+          <!-- Card Probabilitas Semua Kelas -->
+          <div class="prob-card mb-4">
+            <div class="prob-card-header">
+              <i class="bi bi-bar-chart-fill me-2"></i>Probabilitas Semua Kelas
+            </div>
+            <div class="prob-card-body">
+              {% for item in result.all_probabilities %}
+              <div class="prob-item {% if item.class == result.predicted_class %}prob-winner{% endif %}">
+                <div class="prob-class-name">
+                  {% if item.class == result.predicted_class %}
+                    <i class="bi bi-trophy-fill me-1 text-warning"></i>
+                  {% else %}
+                    <i class="bi bi-circle me-1"></i>
+                  {% endif %}
+                  {{ item.class }}
+                </div>
+                <div class="prob-bar-wrap">
+                  <div
+                    class="prob-bar {% if item.class == result.predicted_class %}prob-bar-winner{% endif %}"
+                    style="--prob-width: {{ (item.probability * 100) | round(1) }}%;"
+                  ></div>
+                </div>
+                <div class="prob-pct">{{ item.pct }}</div>
+              </div>
+              {% endfor %}
+            </div>
+          </div><!-- /prob-card -->
+
+          <!-- Card Info Bumbu -->
+          {% if result.class_info.kegunaan %}
+          <div class="info-bumbu-card mb-4">
+            <div class="info-bumbu-header">
+              <i class="bi bi-info-circle-fill me-2"></i>
+              Tentang {{ result.predicted_class }}
+            </div>
+            <div class="info-bumbu-body">
+              <p>{{ result.class_info.kegunaan }}</p>
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- Tombol Aksi -->
+          <div class="action-buttons">
+            <a href="{{ url_for('index') }}#upload-section"
+               class="btn btn-action-primary">
+              <i class="bi bi-arrow-repeat me-2"></i>Prediksi Lagi
+            </a>
+            <a href="{{ url_for('index') }}"
+               class="btn btn-action-outline">
+              <i class="bi bi-house me-2"></i>Kembali ke Beranda
+            </a>
+          </div>
+
+        </div><!-- /col -->
+
+      </div><!-- /row -->
+    </div><!-- /container -->
+  </section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Animasi confidence bar setelah halaman dimuat
+document.addEventListener('DOMContentLoaded', () => {
+  // Trigger animasi confidence bar
+  setTimeout(() => {
+    document.querySelectorAll('.confidence-bar-fill, .prob-bar').forEach(el => {
+      el.style.width = el.style.getPropertyValue('--target-width') ||
+                       el.style.getPropertyValue('--prob-width');
+    });
+  }, 200);
+
+  // Animasi masuk kartu hasil
+  const cards = document.querySelectorAll(
+    '.result-image-card, .result-main-card, .prob-card, .info-bumbu-card'
+  );
+  cards.forEach((card, i) => {
+    card.style.opacity    = '0';
+    card.style.transform  = 'translateY(20px)';
+    card.style.transition = `opacity 0.5s ease ${i * 0.1}s,
+                              transform 0.5s ease ${i * 0.1}s`;
+    setTimeout(() => {
+      card.style.opacity   = '1';
+      card.style.transform = 'translateY(0)';
+    }, 100 + i * 100);
+  });
+});
+</script>
+{% endblock %}

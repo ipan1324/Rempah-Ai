@@ -1,0 +1,25 @@
+# ============================================================
+# requirements.txt
+# Dependensi Proyek: Klasifikasi Bumbu Dapur Indonesia
+# Python 3.11 | TensorFlow | Flask | MobileNetV2
+# ============================================================
+
+# ─── Deep Learning ───────────────────────────────────────────
+tensorflow==2.16.1          # TensorFlow + Keras (termasuk MobileNetV2)
+keras==3.3.3                # Keras API (bundled dengan TF 2.16)
+
+# ─── Pemrosesan Data & Gambar ────────────────────────────────
+numpy==1.26.4               # Operasi array dan matriks
+Pillow==10.3.0              # Baca dan proses gambar (PIL)
+scikit-learn==1.4.2         # Evaluasi model: confusion matrix, classification report
+matplotlib==3.8.4           # Visualisasi grafik training
+seaborn==0.13.2             # Visualisasi heatmap confusion matrix
+opencv-python==4.9.0.80     # (Opsional) Pemrosesan gambar tambahan
+
+# ─── Web Framework ───────────────────────────────────────────
+Flask==3.0.3                # Web framework untuk deployment model
+Werkzeug==3.0.3             # WSGI utility (digunakan Flask untuk upload)
+
+# ─── Utility ─────────────────────────────────────────────────
+h5py==3.11.0                # Penyimpanan model format HDF5 (opsional)
+tqdm==4.66.4                # Progress bar training
