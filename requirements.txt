@@ -23,3 +23,4 @@ Werkzeug==3.0.3             # WSGI utility (digunakan Flask untuk upload)
 # ─── Utility ─────────────────────────────────────────────────
 h5py==3.11.0                # Penyimpanan model format HDF5 (opsional)
 tqdm==4.66.4                # Progress bar training
+gunicorn==22.0.0            # WSGI HTTP Server untuk production (Railway)
