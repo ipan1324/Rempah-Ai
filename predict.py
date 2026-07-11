@@ -8,11 +8,12 @@ import time
 import numpy as np
 from PIL import Image
 import tensorflow as tf
+from tensorflow.keras import backend as K
 
 # ─── Konfigurasi ─────────────────────────────────────────────
 IMG_SIZE    = (224, 224)
 BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH  = os.path.join(BASE_DIR, 'model', 'mobilenet_bumbu.h5')
+MODEL_PATH  = os.path.join(BASE_DIR, 'model', 'mobilenet_bumbu.keras')
 
 # Nama kelas sesuai urutan subfolder (sorted alphabetically)
 CLASS_NAMES = ['Kencur', 'Kunyit', 'Lengkuas']
@@ -58,7 +59,20 @@ def load_model():
                 "Jalankan train.py terlebih dahulu."
             )
         print(f"  [Predict] Memuat model dari: {MODEL_PATH}")
-        _model = tf.keras.models.load_model(MODEL_PATH)
+        try:
+            # Coba load normal dulu
+            _model = tf.keras.models.load_model(MODEL_PATH, compile=False)
+        except Exception as e1:
+            print(f"  [Predict] Load normal gagal ({e1}), mencoba dengan safe_mode=False...")
+            try:
+                _model = tf.keras.models.load_model(
+                    MODEL_PATH,
+                    compile=False,
+                    safe_mode=False
+                )
+            except Exception as e2:
+                print(f"  [Predict] Fallback ke tf.keras.saving: {e2}")
+                _model = tf.saved_model.load(MODEL_PATH)
         print("  [Predict] Model berhasil dimuat!")
     return _model
 

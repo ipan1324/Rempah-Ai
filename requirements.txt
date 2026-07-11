@@ -5,8 +5,8 @@
 # ============================================================
 
 # ─── Deep Learning ───────────────────────────────────────────
-tensorflow==2.16.1          # TensorFlow + Keras (termasuk MobileNetV2)
-keras==3.3.3                # Keras API (bundled dengan TF 2.16)
+tensorflow==2.19.0          # TensorFlow + Keras (termasuk MobileNetV2)
+keras==3.9.2                # Keras API (bundled dengan TF 2.19)
 
 # ─── Pemrosesan Data & Gambar ────────────────────────────────
 numpy==1.26.4               # Operasi array dan matriks
