@@ -49,7 +49,7 @@ TEST_DIR    = 'dataset/test'
 
 # Path penyimpanan model
 MODEL_DIR   = 'model'
-MODEL_PATH  = os.path.join(MODEL_DIR, 'mobilenet_bumbu.keras')
+MODEL_PATH  = os.path.join(MODEL_DIR, 'mobilenet_bumbu.h5')
 
 # Nama kelas (sesuai subfolder dataset)
 CLASS_NAMES = ['Jahe', 'Kencur', 'Kunyit', 'Lengkuas']

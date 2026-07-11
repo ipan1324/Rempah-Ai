@@ -2,11 +2,11 @@ Classification Report - Klasifikasi Bumbu Dapur Indonesia
 ============================================================
               precision    recall  f1-score   support
 
-        Jahe       1.00      0.39      0.56        18
-      Kencur       0.75      0.93      0.83        42
-      Kunyit       0.92      0.81      0.86        42
-    Lengkuas       0.81      0.93      0.87        42
+        Jahe       0.88      0.39      0.54        18
+      Kencur       0.72      0.79      0.75        42
+      Kunyit       0.88      0.90      0.89        42
+    Lengkuas       0.81      0.90      0.85        42
 
-    accuracy                           0.83       144
-   macro avg       0.87      0.76      0.78       144
-weighted avg       0.85      0.83      0.82       144
+    accuracy                           0.81       144
+   macro avg       0.82      0.75      0.76       144
+weighted avg       0.81      0.81      0.80       144

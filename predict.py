@@ -11,7 +11,8 @@ import tensorflow as tf
 
 # ─── Konfigurasi ─────────────────────────────────────────────
 IMG_SIZE    = (224, 224)
-MODEL_PATH  = 'model/mobilenet_bumbu.keras'
+BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH  = os.path.join(BASE_DIR, 'model', 'mobilenet_bumbu.h5')
 
 # Nama kelas sesuai urutan subfolder (sorted alphabetically)
 CLASS_NAMES = ['Kencur', 'Kunyit', 'Lengkuas']
