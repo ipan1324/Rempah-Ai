@@ -8,7 +8,28 @@ import time
 import numpy as np
 from PIL import Image
 import tensorflow as tf
-from tensorflow.keras import backend as K
+
+# ─── Patch Kompatibilitas Keras ───────────────────────────────
+# Model disimpan dengan Keras >= 3.9 yang menambahkan parameter
+# 'input_axes' dan 'output_axes' ke GlorotUniform.
+# Patch ini memastikan model tetap bisa dimuat di Railway
+# meskipun versi Keras berbeda.
+class _GlorotUniformCompat(tf.keras.initializers.GlorotUniform):
+    """GlorotUniform yang toleran terhadap parameter versi baru."""
+    def __init__(self, seed=None, input_axes=None, output_axes=None, **kwargs):
+        super().__init__(seed=seed, **kwargs)
+
+class _ZerosCompat(tf.keras.initializers.Zeros):
+    """Zeros yang toleran terhadap parameter versi baru."""
+    def __init__(self, **kwargs):
+        kwargs.pop('input_axes', None)
+        kwargs.pop('output_axes', None)
+        super().__init__(**kwargs)
+
+_CUSTOM_OBJECTS = {
+    'GlorotUniform': _GlorotUniformCompat,
+    'Zeros'        : _ZerosCompat,
+}
 
 # ─── Konfigurasi ─────────────────────────────────────────────
 IMG_SIZE    = (224, 224)
@@ -60,19 +81,26 @@ def load_model():
             )
         print(f"  [Predict] Memuat model dari: {MODEL_PATH}")
         try:
-            # Coba load normal dulu
-            _model = tf.keras.models.load_model(MODEL_PATH, compile=False)
+            # Load dengan custom_objects untuk kompatibilitas Keras lintas versi
+            _model = tf.keras.models.load_model(
+                MODEL_PATH,
+                compile=False,
+                custom_objects=_CUSTOM_OBJECTS
+            )
         except Exception as e1:
-            print(f"  [Predict] Load normal gagal ({e1}), mencoba dengan safe_mode=False...")
+            print(f"  [Predict] Load gagal ({e1}), mencoba safe_mode=False...")
             try:
                 _model = tf.keras.models.load_model(
                     MODEL_PATH,
                     compile=False,
-                    safe_mode=False
+                    safe_mode=False,
+                    custom_objects=_CUSTOM_OBJECTS
                 )
             except Exception as e2:
-                print(f"  [Predict] Fallback ke tf.keras.saving: {e2}")
-                _model = tf.saved_model.load(MODEL_PATH)
+                raise RuntimeError(
+                    f"Gagal memuat model: {e2}. "
+                    "Pastikan file model ada dan tidak korup."
+                ) from e2
         print("  [Predict] Model berhasil dimuat!")
     return _model
 
