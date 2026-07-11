@@ -9,7 +9,7 @@ env/
 dataset/
 
 # Model
-model/
+# model/
 
 # Uploads
 static/uploads/
